@@ -1,0 +1,23 @@
+<div id="confirmation-message" style="font-size: 1.5em; text-align: center; padding: 20px;">
+Generating your confirmation number...
+</div>
+
+<script>
+function getChosenNumberFromURL() {
+const params = new URLSearchParams(window.location.search);
+return params.get('chosen') || 'XX'; // fallback if not provided
+}
+
+function generateConfirmationNumber(chosenNumber) {
+const date = new Date();
+const datePart = date.toISOString().slice(0,10).replace(/-/g, ''); // e.g. 20250424
+const randomPart = Math.floor(1000 + Math.random() * 9000); // 4-digit random number
+return `CONF-${datePart}-${chosenNumber}-${randomPart}`;
+}
+
+const chosenNumber = getChosenNumberFromURL();
+const confirmationNumber = generateConfirmationNumber(chosenNumber);
+
+document.getElementById("confirmation-message").textContent =
+`Thank you! You chose number ${chosenNumber}. Your confirmation number is: ${confirmationNumber}`;
+</script>
